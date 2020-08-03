@@ -99,9 +99,14 @@ char* sds::makeRoomFor(size_t addlen) {
     } else {
         newLen += SDS_MAX_PREALLOC;
     }
-    delete[] this->buf;
-    this->buf = new char[newLen + 1]();
+
+    char* newRoom = new char[newLen + 1]();
+    memcpy(newRoom, this->buf, this->len);
+    delete [] this->buf;
+
+    this->buf = newRoom;
     this->freeSpace = newLen - this->len;
+
     return this->buf;
 }
 
@@ -109,8 +114,28 @@ size_t sds::sdsLen() {
     return this->len;
 }
 
+
+/* Grow the sds to have the specified length. Bytes that were not part of
+ * the original length of the sds will be set to zero.
+ *
+ * if the specified length is smaller than the current length, no operation
+ * is performed. */
+/*
+ * 将 sds 扩充至指定长度，未使用的空间以 0 字节填充。
+ *
+ * 返回值
+ *  sds ：扩充成功返回新 sds ，失败返回 NULL
+ *
+ * 复杂度：
+ *  T = O(N)
+ */
 void sds::sdsgrowzero(size_t l) {
     size_t curLen = this->len;
+
+    if (l < curLen)
+        return;
+    this->makeRoomFor(l - curLen);
+
 
 }
 
