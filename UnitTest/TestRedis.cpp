@@ -31,3 +31,14 @@ TEST(sds, testClear1) {
     EXPECT_EQ(num, 5);
     EXPECT_EQ(*(s->data()), '\0');
 }
+
+TEST(sds, testMakeRoomFor) {
+    const char * testString = "hello";
+    auto s = new sds(testString, 5);
+    char* ret = s->makeRoomFor(100);
+    int ans = strcmp(testString, ret);
+    EXPECT_EQ(ans, 0);
+    EXPECT_EQ(s->sdsLen(), 5);
+    int a = s->sdsavail();
+    EXPECT_EQ(a, 205);
+}

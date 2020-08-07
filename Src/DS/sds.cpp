@@ -76,8 +76,8 @@ size_t sds::clear() {
     return deleteNum;
 }
 
-size_t sds::sdsavail(const sds &s) {
-    return s.freeSpace;
+size_t sds::sdsavail() {
+    return this->freeSpace;
 }
 
 
@@ -93,6 +93,8 @@ char* sds::makeRoomFor(size_t addlen) {
     if (this->freeSpace >= addlen)
         return nullptr;
 
+    // 你要分配的空间的基值 是原来的以使用的长度 + 要分配的空间
+    // 然后在这个基础上使用分配策略
     int newLen = this->len + addlen;
     if (newLen < SDS_MAX_PREALLOC) {
         newLen *= 2;

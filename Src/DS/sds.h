@@ -25,9 +25,9 @@ public:
 
     sds* dup();
     size_t clear();
-    static inline size_t sdsavail(const sds& s);
+    size_t sdsavail();
     char* makeRoomFor(size_t addLen);
-    inline size_t sdsLen();
+    size_t sdsLen();
     void sdsgrowzero(size_t len);
 };
 
