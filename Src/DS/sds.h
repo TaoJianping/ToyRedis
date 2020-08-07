@@ -29,6 +29,11 @@ public:
     char* makeRoomFor(size_t addLen);
     size_t sdsLen();
     void sdsgrowzero(size_t len);
+    char* sdsRemoveFreeSpace();
+    size_t sdsAllocSize();
+    void sdsIncrLen(int incr);
+    char* sdscatlen(const void *t, size_t len);
+    char* sdscat(const char *t);
 };
 
 

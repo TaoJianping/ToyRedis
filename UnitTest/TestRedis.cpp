@@ -42,3 +42,14 @@ TEST(sds, testMakeRoomFor) {
     int a = s->sdsavail();
     EXPECT_EQ(a, 205);
 }
+
+
+TEST(sds, testsdscatlen) {
+    const char * testString = "hello";
+    auto s = new sds(testString, 5);
+    auto testC = "test";
+    auto buf = s->sdscatlen(testC, 4);
+    int ans = strcmp("hellotest", buf);
+    EXPECT_EQ(ans, 0);
+    EXPECT_EQ(9, s->sdsLen());
+}
